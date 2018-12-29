@@ -13,6 +13,7 @@ app.post('/athlete', athlete_ctrl.updateAthlete);
 app.get('/athletes', athlete_ctrl.getAllAthletes);
 app.get('/athlete/:winnings/:playSince', athlete_ctrl.getAthleteByWinningsAndPlaySince);
 
+//With open the main route you can easely see the way of using this app. (LINK TO POSTMAN)
 app.get('*', (req, res) => {
     res.redirect('https://documenter.getpostman.com/view/5655628/RznBMfHU')
 });
