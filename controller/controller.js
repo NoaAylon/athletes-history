@@ -1,10 +1,5 @@
-const mongoose = require('mongoose');
 const connection = require('../db');
-const consts = require('../consts');
 const Athlete = require('../model/athlete');
-
-const { MLAB_URL, DB_USER, DB_PASS } = consts
-const options = { useNewUrlParser: true, useCreateIndex: true, user: DB_USER, pass: DB_PASS }
 
 module.exports = {
 
@@ -12,7 +7,7 @@ module.exports = {
 
         //waits for get all data
         const result = await Athlete.find({})
-        if (result)
+        if (result.length != 0)
             res.json(result)
         else
             res.status(404).send('data not found')
@@ -23,24 +18,22 @@ module.exports = {
         const { winnings, playSince } = req.params
         //find objects where winning=x AND playSince=y
         const result = await Athlete.find({ winnings, playSince })
-        if (result)
+        if (result.length != 0)
             res.json(result)
         else
-            res.status(404).send('winnings or playSince was not found')
+            res.status(404).send('winnings or playSince does not exist')
     },
 
     async updateAthlete(req, res, next) {
-        mongoose
 
         const { id = null, winnings = null } = req.body;
-        console.log(id);
-        //add new key to specific document(who gets by id)
+        //changing the winning of specific document(who gets by id)
         const result = await Athlete.findOneAndUpdate({ id }, { $set: { winnings } }, { new: true })
-        if (result) {
+        if (result != 0) {
             console.dir(result);
             res.json(result)
         } else {
-            res.status(404).send('id or winnings was not found')
+            res.status(404).send('id does not exist')
         }
     }
 }
